@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+    <style>
+        .contenedor {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          place-items: center;
+          gap: 10px;
+        }
+     
+        .item {
+          padding: 20px;
+          text-align: center;
+          width: 300px;
+        }
+ 
+        img{
+            height: 200px;
+        }
+ 
+        .fire {
+            background-color: #ff0000;
+        }
+ 
+        .water {
+            background-color: #42A5F5;
+        }
+ 
+        .grass {
+            background-color: #66BB6A;
+        }
+ 
+        .electric{
+            background-color: yellow;
+        }
+       
+      </style>
+ 
+</head>
+<body>
+ 
+    <div class="contenedor">
+        <div class="item" id="item-1">
+            <div id="nombrepokemon-1"></div>
+            <div id="contenedor-1"></div>
+        </div>
+       
+        <div class="item" id="item-2">
+            <div id="nombrepokemon-2"></div>
+            <div id="contenedor-2"></div>
+        </div>
+ 
+        <div class="item" id="item-3">
+            <div id="nombrepokemon-3"></div>
+            <div id="contenedor-3"></div>
+        </div>
+ 
+        <div class="item" id="item-4">
+            <div id="nombrepokemon-4"></div>
+            <div id="contenedor-4"></div>
+        </div>
+   
+    </div>    
+   
+    <script>
+        const apiBase = "https://pokeapi.co/api/v2/pokemon/";
+ 
+async function consultarPokemon(id, contenedorId, itemId) {
+    let consulta = await fetch(`${apiBase}${id}/`);
+    let datos = await consulta.json();
+    dibujarPokemon(datos, contenedorId, itemId);
+}
+ 
+function dibujarPokemon(datosPokemon, contenedorId, itemId) {
+    let rutaImagen = datosPokemon.sprites.other.home.front_default;
+    let tipoPokemon = datosPokemon.types[0].type.name;
+    let pokemonHTML = `<h1>${datosPokemon.name}</h1>
+    <img src="${rutaImagen}"/>
+    <h1>${tipoPokemon}</h1>`;
+    document.getElementById(contenedorId).innerHTML = pokemonHTML;
+ 
+    let itemDiv = document.getElementById(itemId);
+    if (tipoPokemon === "fire") {
+        itemDiv.classList.add("fire");
+    }
+     if (tipoPokemon === "water") {
+        itemDiv.classList.add("water");
+    }
+     if (tipoPokemon === "grass") {
+        itemDiv.classList.add("grass");
+    }
+    if(tipoPokemon == "electric"){
+        itemDiv.classList.add("electric")
+    }
+ 
+}
+ 
+consultarPokemon(1, "contenedor-1", "item-1");
+consultarPokemon(25, "contenedor-2", "item-2");
+consultarPokemon(4, "contenedor-3", "item-3");
+consultarPokemon(7, "contenedor-4", "item-4");
+ 
+    </script>
+ 
+</body>
+</html>
